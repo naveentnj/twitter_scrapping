@@ -22,4 +22,4 @@ def store_data(data):
         print("Something went wrong")
 
 
-    return "Success "+str(inserted_id_count) if inserted_id_count > 0 else "Failed"
+    return "Success "+str(inserted_id_count)+" number records" if inserted_id_count > 0 else "Failed"

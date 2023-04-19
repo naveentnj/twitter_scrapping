@@ -5,6 +5,8 @@ import streamlit as st
 import pandas as pd
 import snscrape.modules.twitter as sntwitter
 from pymongo_data_store import store_data
+from display_dataframe import display_dataframe
+
 
 from datetime import date, timedelta, datetime
 import json
@@ -67,44 +69,20 @@ def search_function(input_text,from_date , to_date ,no_of_tweets = 50):
     return tweets_df3
 
 
-submitted_search = st.button("Submit to search")
-
-
+#submitted_search = st.button("Submit to display", on_click = display_dataframe, args = tweets_df)
 
 #st.form_submit_button("Submit to search")
-
-one_df = pd.DataFrame()
-
-
 
 
 tweets_df = search_function(input_text,from_date,to_date,no_of_tweets)
 
-    
-    
 
-
-if submitted_search:
-    rows = {"number_of_rows": 40}
-    st.dataframe(tweets_df.head(rows["number_of_rows"]))
-
-    increment = st.button('Show more columns ⬆️')
-    if increment:
-        rows["number_of_rows"] += 1
-
-    decrement = st.button('Show less columns ⬇️')
-    if decrement:
-        rows["number_of_rows"] += 1
-
-
+display_dataframe(tweets_df)
 
 @st.cache_data
 def convert_df_to_dict(df):
     # IMPORTANT: Cache the conversion to prevent computation on every rerun
     return df.to_dict(orient="records")
-
-
-
 
 st.write("Click if you want to load to Mongo DB server")
 mongodb_button = st.button("Store in MongoDB")
@@ -114,7 +92,7 @@ if mongodb_button not in st.session_state:
     tweets_df_dict = convert_df_to_dict(tweets_df)
     #mongo_input_data = [[{"Scrapped Word Or Username":input_text},{"Scrapped Date ": date.today()}],tweets_df_dict]
     stored_ack = store_data(tweets_df_dict)
-    st.success(f"Data Stored successfully with the ID {stored_ack}")
+    st.success(f"Data Stored successfully with the code {stored_ack}")
 
 
 
