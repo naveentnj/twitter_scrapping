@@ -94,8 +94,6 @@ if mongodb_button not in st.session_state:
     stored_ack = store_data(tweets_df_dict)
     st.success(f"Data Stored successfully with the code {stored_ack}")
 
-
-
 st.write("Click if you want to download CSV format")
 
 @st.cache_data
